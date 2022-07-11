@@ -38,11 +38,11 @@ export default function Store() {
                 var product_id = x.attributes.category.data.map((x) => {
                   return x.id;
                 });
-                 
+
                 if (x_id == product_id) {
                   return (
-                    <div key={x.id}>
-                      <a href={`./product/${x.id}`}>
+                    <div class="max-w-sm" key={x.id}>
+                      <a href={`/product/${x.id}`}>
                         <img
                           src={`http://localhost:1337${img.toString()}`}
                           loading="lazy"
@@ -55,19 +55,24 @@ export default function Store() {
                       <AddtoCart data={x} />
                     </div>
                   );
-                } 
-                
-                if(x_id == 'all'){
+                }
+
+                if (x_id == "all") {
                   return (
-                    <div key={x.id}>
-                      <a href={`./product/${x.id}`}>
+                    <div class="max-w-sm" key={x.id}>
+                      <a href={`/product/${x.id}`}>
                         <img
                           src={`http://localhost:1337${img.toString()}`}
                           loading="lazy"
                           alt="IMG PRODUCT"
                         />
                         <h2>{x.attributes.title}</h2>
-                        <p>{x.attributes.description}</p>
+                        <p>
+                          {x.attributes.description.length > 120
+                            ? x.attributes.description.substring(0, 120) +
+                              " . . ."
+                            : x.attributes.description}
+                        </p>
                         <h3>{x.attributes.price} DA</h3>
                       </a>
                       <AddtoCart data={x} />

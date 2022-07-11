@@ -1,11 +1,10 @@
- 
-import React , {useEffect, useState} from "react";
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import AddtoCart from "./../pageElements/AddtoCart";
 
 export default function OneProduct() {
   const [product, setProduct] = useState([]);
 
- 
   const { product_id } = useParams();
   console.log(product_id);
 
@@ -18,8 +17,7 @@ export default function OneProduct() {
     console.log([response.data]);
   };
 
-   useEffect(() => {
-   
+  useEffect(() => {
     GetoneProduct();
   }, []);
   return (
@@ -36,18 +34,29 @@ export default function OneProduct() {
                 });
 
               return (
-                <div class="h-screen flex justify-center items-center">
-                  <div class="flex justify-center items-center w-4/6">
+                <div class="h-screen mt-36 flex justify-center items-start">
+                  <div class="flex flex-col justify-center items-center w-4/6">
+                    <h1 class="font-bold">{x.attributes.title}</h1>
                     <img
                       src={`http://localhost:1337${img}`}
                       alt="Product image"
                     />
                   </div>
-                  <div class="w-2/4 text-left flex flex-col items-center">
-                    <h1 class="font-bold">{x.attributes.title}</h1>
-                    <h3 class="">Prix : <span class="font-extrabold">{x.attributes.price}</span></h3>
-                    <p>{x.attributes.description}</p>
-                    <h3> {x.attributes.Color}</h3>                   
+                  <div class="h-4/6 w-3/4 text-left flex flex-col justify-around ">
+                    <div>
+                      <p>Description : </p>
+                      <p>{x.attributes.description}</p>
+                    </div>
+                    <hr class=" border-black" />
+                    <h3>
+                      Couleur disponible : <b>{x.attributes.Color}</b>
+                    </h3>
+                    <hr class=" border-black" />
+                    <h3 class="">
+                      Prix :{" "}
+                      <span class="font-extrabold">{x.attributes.price}</span>
+                    </h3>
+                    <AddtoCart data={x} />
                   </div>
                 </div>
               );
@@ -57,5 +66,3 @@ export default function OneProduct() {
     </div>
   );
 }
-
- 

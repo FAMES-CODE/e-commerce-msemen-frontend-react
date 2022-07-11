@@ -2,16 +2,24 @@ import React from "react";
 
 function Home() {
   const [categories, setcategories] = React.useState([]);
+  const [products, setproducts] = React.useState([]);
 
   const getCategories = async () => {
     var call = await fetch("http://localhost:1337/api/categories?populate=*");
     var response = await call.json();
     setcategories(response.data);
-    console.log(response.data);
+  };
+
+  const getProducts = async () => {
+    var call = await fetch("http://localhost:1337/api/products?populate=*");
+    var res = await call.json();
+    setproducts(res.data);
+    console.log(res.data);
   };
 
   React.useEffect(() => {
     getCategories();
+    getProducts();
   }, []);
   return (
     <div>
@@ -48,7 +56,7 @@ function Home() {
               ? categories.map((cate) => {
                   return (
                     <div class="col3">
-                      <a href={`category/${cate.id}`}>
+                      <a href={`store/${cate.id}`}>
                         <h2>{cate.attributes.title}</h2>
                         <img
                           src={`http://localhost:1337${cate.attributes.category_image.data.attributes.formats.medium.url}`}
@@ -67,30 +75,25 @@ function Home() {
 
       <div class="small-con">
         <div class="a">
-          <a href="store.html"> Products </a>
+          <a href="store/all"> Products </a>
         </div>
         <div class="row">
-          <div class="col4">
-            <a href="">
-              <img src="img/pr1.jpg" />
-              <h4>Abaya Ramadan</h4>
-              <p>4500 DA</p>
-            </a>
-          </div>
-          <div class="col4">
-            <a href="">
-              <img src="img/pr1.jpg" />
-              <h4>Abaya Ramadan</h4>
-              <p>4500 DA</p>
-            </a>
-          </div>
-          <div class="col4">
-            <a href="">
-              <img src="img/pr1.jpg" />
-              <h4>Abaya Ramadan</h4>
-              <p>4500 DA</p>
-            </a>
-          </div>
+          {products
+            ? products.map((product) => {
+              var product_image = product.attributes.product_image.data.map((x) => {
+                return x.attributes.formats.small.url.toString();
+              })
+                return (
+                  <div class="col4">
+                    <a href={`/product/${product.id}`}>
+                      <img src={`http://localhost:1337${product_image}`} />
+                      <h4>{product.attributes.title}</h4>
+                      <p>{product.attributes.price} DA</p>
+                    </a>
+                  </div>
+                );
+              })
+            : ""}
         </div>
       </div>
 

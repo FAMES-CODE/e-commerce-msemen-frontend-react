@@ -1,6 +1,7 @@
 import React from "react";
 
 function Navbar() {
+  //
   return (
     <div class="bg-black h-16 flex justify-center items-center ">
       <div class="flex flex-row justify-around items-center w-screen  ">

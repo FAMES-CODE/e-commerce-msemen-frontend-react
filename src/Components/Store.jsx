@@ -19,12 +19,12 @@ export default function Store() {
   }, []);
   return (
     <div>
-      <div class="flex items-center">
-        <div class="w-1/4 h-full">
+      <div class="flex flex-col items-center">
+        <div class="w-full h-full ">
           <Sortbycategory />
         </div>
 
-        <div class="bg-red-500 flex justify-around w-full">
+        <div class=" flex justify-around w-full">
           {products
             ? products.map((x) => {
                 var img = x.attributes.product_image.data
@@ -41,16 +41,30 @@ export default function Store() {
 
                 if (x_id == product_id) {
                   return (
-                    <div class="max-w-sm" key={x.id}>
+                    <div
+                      class="relative max-w-sm rounded overflow-hidden shadow-lg"
+                      key={x.id}
+                    >
                       <a href={`/product/${x.id}`}>
                         <img
+                          class="w-full max-h-96"
                           src={`http://localhost:1337${img.toString()}`}
                           loading="lazy"
                           alt="IMG PRODUCT"
                         />
-                        <h2>{x.attributes.title}</h2>
-                        <p>{x.attributes.description}</p>
-                        <h3>{x.attributes.price} DA</h3>
+                        <div class="px-6 py-4">
+                        <h2 class="font-bold text-xl mb-2">{x.attributes.title}</h2>
+
+                        <p class="text-gray-700 text-base">
+
+                        {x.attributes.description.length > 120
+                          ? x.attributes.description.substring(0, 120) +
+                          " . . ."
+                          : x.attributes.description}
+                          </p>
+                        <hr />
+                        <h3>Prix : {x.attributes.price} DA</h3>
+                          </div>
                       </a>
                       <AddtoCart data={x} />
                     </div>
@@ -59,23 +73,31 @@ export default function Store() {
 
                 if (x_id == "all") {
                   return (
-                    <div class="max-w-sm" key={x.id}>
+                    <div
+                      class="relative max-w-sm rounded overflow-hidden shadow-lg"
+                      key={x.id}
+                    >
                       <a href={`/product/${x.id}`}>
                         <img
+                          class="w-full max-h-96"
                           src={`http://localhost:1337${img.toString()}`}
                           loading="lazy"
                           alt="IMG PRODUCT"
                         />
-                        <h2>{x.attributes.title}</h2>
-                        <p>
-                          {x.attributes.description.length > 120
-                            ? x.attributes.description.substring(0, 120) +
-                              " . . ."
-                            : x.attributes.description}
-                        </p>
-                        <h3>{x.attributes.price} DA</h3>
+                        <div class="px-6 py-4">
+                          <h2 class="font-bold text-xl mb-2">
+                            {x.attributes.title}
+                          </h2>
+                          <p class="text-gray-700 text-base">
+                            {x.attributes.description.length > 120
+                              ? x.attributes.description.substring(0, 120) +
+                                " . . ."
+                              : x.attributes.description}
+                          </p>
+                          <h3>{x.attributes.price} DA</h3>
+                        </div>
                       </a>
-                      <AddtoCart data={x} />
+                      <AddtoCart class="absolute bottom-0" data={x} />
                     </div>
                   );
                 }

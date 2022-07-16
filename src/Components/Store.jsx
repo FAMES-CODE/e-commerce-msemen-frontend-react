@@ -1,7 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import AddtoCart from "./pageElements/AddtoCart";
+import Alert from "./pageElements/Alert";
 import Sortbycategory from "./pageElements/Sortbycategory";
+ 
 
 export default function Store() {
   const [products, setProducts] = React.useState([]);
@@ -18,13 +20,13 @@ export default function Store() {
     storeProduct();
   }, []);
   return (
-    <div>
+    <div class="min-h-screen">
       <div class="flex flex-col items-center">
         <div class="w-full h-full ">
           <Sortbycategory />
         </div>
-
-        <div class=" flex justify-around w-full">
+      
+        <div class=" flex flex-col justify-center items-center md:flex-row flex-wrap  justify-around w-full">
           {products
             ? products.map((x) => {
                 var img = x.attributes.product_image.data
@@ -42,10 +44,10 @@ export default function Store() {
                 if (x_id == product_id) {
                   return (
                     <div
-                      class="relative max-w-sm rounded overflow-hidden shadow-lg"
+                      class="relative md:max-w-sm rounded overflow-hidden shadow-lg"
                       key={x.id}
                     >
-                      <a href={`/product/${x.id}`}>
+                      <a class="max-w-sm" href={`/product/${x.id}`}>
                         <img
                           class="w-full max-h-96"
                           src={`http://localhost:1337${img.toString()}`}
@@ -74,7 +76,7 @@ export default function Store() {
                 if (x_id == "all") {
                   return (
                     <div
-                      class="relative max-w-sm rounded overflow-hidden shadow-lg"
+                      class="relative w-5/6 py-12 md:max-w-sm rounded overflow-hidden shadow-lg"
                       key={x.id}
                     >
                       <a href={`/product/${x.id}`}>
@@ -98,11 +100,13 @@ export default function Store() {
                         </div>
                       </a>
                       <AddtoCart class="absolute bottom-0" data={x} />
+                    
                     </div>
                   );
                 }
               })
             : "Loading"}
+            
         </div>
       </div>
     </div>

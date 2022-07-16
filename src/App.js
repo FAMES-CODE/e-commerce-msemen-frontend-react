@@ -11,6 +11,8 @@ import Order from "./Components/Order";
 import About from './Components/About';
 import Footer from "./Components/pageElements/Footer";
 import Categories from './Components/category/Categories';
+import Success from './Components/Success';
+import Error from './Components/pageElements/Error';
 
 function App() {
   return ( 
@@ -23,9 +25,11 @@ function App() {
           <Route path="/store/:x_id" element={<Store />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/order/success/:oid" element={<Success />} />
           <Route path="/product/:product_id" element={<OneProduct />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:cate_id" element={<OneCategory />} />
+          <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>
       <Footer />

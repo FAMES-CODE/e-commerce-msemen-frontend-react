@@ -16,24 +16,28 @@ function Sortbycategory() {
   }, []);
 
   return (
-    <div class="shadow-lg shadow-green-600/30 mb-6 h-1/4 border-b-4 border-white flex justify-evenly items-center text-white">
-      <a href="./all" class="">
+    <div class="z-20 fixed w-full py-2 bg-black bottom-0  shadow-lg shadow-green-600/30  flex justify-evenly items-center ">
+      <a href="./all" class="text-white">
         Tout
       </a>
-      {categories.map((x) => {
-        if (x_id == x.id) {
-          return (
-            <a href={`../store/${x.id}`} class="text-red-500">
-              {x.attributes.title}
-            </a>
-          );
-        }
-        return (
-          <a href={`../store/${x.id}`} class="">
-            {x.attributes.title}
-          </a>
-        );
-      })}
+      <div class="flex w-1/6 justify-evenly">
+        {categories
+          ? categories.map((x) => {
+              if (x_id == x.id) {
+                return (
+                  <a href={`../store/${x.id}`} class="text-red-500 uppercase">
+                    {x.attributes.title}
+                  </a>
+                );
+              }
+              return (
+                <a href={`../store/${x.id}`} class="text-white">
+                  {x.attributes.title}
+                </a>
+              );
+            })
+          : ""}
+      </div>
     </div>
   );
 }

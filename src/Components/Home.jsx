@@ -27,7 +27,7 @@ function Home() {
         <div class="container">
           <div class="row">
             <div class="col2">
-              <h1>Make Them Stop And Stare</h1>
+              <h1 class="font-bold">Make Them Stop And Stare</h1>
               <p>
                 Rashane offer ready to wear for veiled women, modern and chic.
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
@@ -35,12 +35,12 @@ function Home() {
                 nulla odit, sapiente ipsum voluptas tenetur eos reiciendis nihil
                 adipisci ipsam, magnam dolorum?
               </p>
-              <a href="store.html" class="btn">
+              <a href="store" class="btn">
                 Buy Now
               </a>
             </div>
             <div class="col2">
-              <img src="img/1.png" alt="" />
+              <img src="/assets/1.png" alt="" />
             </div>
           </div>
         </div>

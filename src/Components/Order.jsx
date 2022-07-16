@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-
+import { v1 as uuidv1 } from 'uuid';
 function Order() {
+  let navigate = useNavigate();
   const cart = JSON.parse(localStorage.getItem("cart"));
   const {
     register,
@@ -28,53 +30,64 @@ function Order() {
   });
 
   finalCart = finalCart.filter((item) => item.quant > 0);
+  var newOrder = finalCart;
 
-  var totalPrice = 0;
-
+  
   const onSubmit = (data) => {
-    var data = data;
+    const v1options = {
+      node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+      clockseq: 0x1234,
+      msecs: new Date().getTime(),
+      nsecs: 5678,
+    };
+    
+    var oid = uuidv1(v1options);
+   
     var ah = {
+      Lastname: data.Lastname,
+      Firstname: data.Firstname,
+      Phone_number: data.Phone_number,
+      email: data.email,
+      oid: oid,
+      delivery_adress: data.delivery_adress,
       confirmed: false,
       delivred: false,
-      total_price: totalPrice,
-      recap: finalCart.map((x) => {
-        var sizeee = document.getElementById("selectedSize");
-        var colorrr = document.getElementById("selectedColor");
-        var sizee = sizeee.value.toString();
-        var col = colorrr.value.toString();
-        var stri =
-          x.element.title +
-          " | | En taille :  " +
-          sizee +
-          " | | La couleur :  " +
-          col +
-          " | | En quantitée : " +
-          x.quant +
-          "\n";
+      total_price: newOrder.map((x) => {
+        return x.quant * x.element.price
+      }).reduce((previousValue, currentValue) => previousValue + currentValue, 0),
+      recap: newOrder.map((x) => {
+        var el = x.element.title + ' Couleur : ' + x.element.color + ' ,  Quantité : ' + x.quant + ' ,  Prix unitaire : ' + x.element.price + ' || Total : ' + (x.quant * x.element.price)
+        return el
+      }).join("\n\n"), 
+       
+      
 
-        return stri.toString();
-      }),
-
-      products: finalCart.map((x) => {
+      products: newOrder.map((x) => {
         return { id: x.element.id };
       }),
-    };
 
+    };
+   
     const sendDetailsToServer = async () => {
       // http://localhost:1337/api/orders
-
+      console.log({data: ah});
       fetch("http://localhost:1337/api/orders", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(ah),
+        body: JSON.stringify({data: ah}),
       })
         .then((res) => res.json)
         .catch((err) => console.log(err));
     };
 
     sendDetailsToServer();
+
+    setTimeout(() => {
+      navigate(`success/${oid}`);
+    }, 400)
+
   };
 
   return (
@@ -170,22 +183,45 @@ function Order() {
                 <th>Taille disponible</th>
                 <th>Prix unitaire ( DA ) </th>
                 <th>Quantité </th>
-                <th>Prix</th>
+               
               </tr>
             </thead>
             <tbody class="">
               {finalCart
                 ? finalCart.map((x) => {
-                    var priceEl = x.element.price * x.quant;
+                    
                     var sizeOf = x.element.size.split("-");
                     var colorOf = x.element.color.split("-");
-                    totalPrice = totalPrice + priceEl;
+                    var priceOf = x.quant * x.element.price;
+                    
                     return (
                       <tr class="text-center">
                         <td>{x.element.id}</td>
                         <td>{x.element.title}</td>
                         <td>
-                          <select name="" id="selectedColor">
+                          <select
+                            name=""
+                            id="selectedColor"
+                            onChange={(el) => {
+                              for (
+                                let index = 0;
+                                index < newOrder.length;
+                                index++
+                              ) {
+                                const element = newOrder[index];
+                                const element_id = newOrder[index].element.id;
+                                if (element_id == x.element.id) {
+                                  element.element.color = el.target.value;
+                                  console.log(
+                                    element.element.color,
+                                    " = ",
+                                    el.target.value
+                                  );
+                                }
+                                console.log(newOrder);
+                              }
+                            }}
+                          >
                             {colorOf.map((b) => {
                               return (
                                 <option value={`${b.toString()}`}>{b}</option>
@@ -194,7 +230,29 @@ function Order() {
                           </select>
                         </td>
                         <td>
-                          <select name="" id="selectedSize">
+                          <select
+                            name=""
+                            id="selectedSize"
+                            onChange={(el) => {
+                              for (
+                                let index = 0;
+                                index < newOrder.length;
+                                index++
+                              ) {
+                                const element = newOrder[index];
+                                const element_id = newOrder[index].element.id;
+                                if (element_id == x.element.id) {
+                                  element.element.size = el.target.value;
+                                  console.log(
+                                    element.element.size,
+                                    " = ",
+                                    el.target.value
+                                  );
+                                }
+                                console.log(newOrder);
+                              }
+                            }}
+                          >
                             {sizeOf.map((a) => {
                               return (
                                 <option value={`${a.toString()}`}>{a}</option>
@@ -211,19 +269,37 @@ function Order() {
                             type="number"
                             defaultValue={x.quant}
                             name=""
-                            id=""
+                            id="selectedQnt"
+                            onChange={(el) => {
+                              for (
+                                let index = 0;
+                                index < newOrder.length;
+                                index++
+                              ) {
+                                const element = newOrder[index];
+                                const element_id = newOrder[index].element.id;
+
+                                console.log(element_id);
+                                if (element_id == x.element.id) {
+                                  element.quant = parseInt(el.target.value);
+                                  priceOf = element.element.price * parseInt(el.target.value);
+                                  element.totalUnitPrice = priceOf; 
+                               
+                                }
+                                console.log(newOrder);
+                              }
+                            }}
                           />
                         </td>
-                        <td>{priceEl}</td>
+                    
                       </tr>
                     );
                   })
                 : ""}
             </tbody>
           </table>
-          <p class="">Le prix total est de {totalPrice} DA </p>
         </div>
-        <input class="w-1/4 ml-32" type="submit" />
+        <input class="w-1/4 ml-32 my-6" type="submit" />
       </form>
     </div>
   );

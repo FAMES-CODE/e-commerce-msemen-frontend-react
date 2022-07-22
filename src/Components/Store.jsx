@@ -1,9 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import AddtoCart from "./pageElements/AddtoCart";
-import Alert from "./pageElements/Alert";
-import Sortbycategory from "./pageElements/Sortbycategory";
  
+import Sortbycategory from "./pageElements/Sortbycategory";
 
 export default function Store() {
   const [products, setProducts] = React.useState([]);
@@ -21,12 +20,18 @@ export default function Store() {
   }, []);
   return (
     <div class="min-h-screen">
+      <div
+        id="success"
+        className="hidden sticky z-50 h-1/6 w-full justify-center items-center top-0 bg-lime-500"
+      >
+        <h1>Article ajouter au panier</h1>
+      </div>
       <div class="flex flex-col items-center">
         <div class="w-full h-full ">
           <Sortbycategory />
         </div>
-      
-        <div class=" flex flex-col justify-center items-center md:flex-row flex-wrap  justify-around w-full">
+
+        <div class="py-6 flex flex-col justify-center items-center md:flex-row flex-wrap  justify-around w-full">
           {products
             ? products.map((x) => {
                 var img = x.attributes.product_image.data
@@ -44,7 +49,7 @@ export default function Store() {
                 if (x_id == product_id) {
                   return (
                     <div
-                      class="relative md:max-w-sm rounded overflow-hidden shadow-lg"
+                      class="relative my-12 md:max-w-sm rounded overflow-hidden shadow-lg"
                       key={x.id}
                     >
                       <a class="max-w-sm" href={`/product/${x.id}`}>
@@ -55,20 +60,32 @@ export default function Store() {
                           alt="IMG PRODUCT"
                         />
                         <div class="px-6 py-4">
-                        <h2 class="font-bold text-xl mb-2">{x.attributes.title}</h2>
+                          <h2 class="font-bold text-xl mb-2">
+                            {x.attributes.title}
+                          </h2>
 
-                        <p class="text-gray-700 text-base">
-
-                        {x.attributes.description.length > 120
-                          ? x.attributes.description.substring(0, 120) +
-                          " . . ."
-                          : x.attributes.description}
+                          <p class="text-gray-700 text-base">
+                            {x.attributes.description.length > 35
+                              ? x.attributes.description.substring(0, 35) +
+                                " . . ."
+                              : x.attributes.description}
                           </p>
-                        <hr />
-                        <h3>Prix : {x.attributes.price} DA</h3>
-                          </div>
+                          <hr />
+                          <h3>Prix : {x.attributes.price} DA</h3>
+                        </div>
                       </a>
-                      <AddtoCart data={x} />
+                      <div className="py-16">
+                        {x.attributes.available ? (
+                          <AddtoCart class="absolute bottom-0" data={x} />
+                        ) : (
+                          <div className="relative">
+                            {" "}
+                            <span className="w-full absolute py-6 font-bold text-center bg-red-500 ">
+                              NON DISPONIBLE
+                            </span>{" "}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   );
                 }
@@ -76,7 +93,7 @@ export default function Store() {
                 if (x_id == "all") {
                   return (
                     <div
-                      class="relative w-5/6 py-12 md:max-w-sm rounded overflow-hidden shadow-lg"
+                      class="relative w-5/6 my-12 md:max-w-sm rounded overflow-hidden shadow-lg"
                       key={x.id}
                     >
                       <a href={`/product/${x.id}`}>
@@ -91,22 +108,31 @@ export default function Store() {
                             {x.attributes.title}
                           </h2>
                           <p class="text-gray-700 text-base">
-                            {x.attributes.description.length > 120
-                              ? x.attributes.description.substring(0, 120) +
+                            {x.attributes.description.length > 35
+                              ? x.attributes.description.substring(0, 35) +
                                 " . . ."
                               : x.attributes.description}
                           </p>
                           <h3>{x.attributes.price} DA</h3>
                         </div>
                       </a>
-                      <AddtoCart class="absolute bottom-0" data={x} />
-                    
+                      <div className="py-16">
+                        {x.attributes.available ? (
+                          <AddtoCart class="absolute bottom-0" data={x} />
+                        ) : (
+                          <div className="relative">
+                            {" "}
+                            <span className="w-full absolute py-6 font-bold text-center bg-red-500 ">
+                              NON DISPONIBLE
+                            </span>{" "}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   );
                 }
               })
             : "Loading"}
-            
         </div>
       </div>
     </div>

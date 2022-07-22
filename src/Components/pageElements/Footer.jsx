@@ -2,11 +2,11 @@ import React from "react";
 
 function Footer() {
   return (
-    <div class="relative z-20 w-full bottom-0 footer">
+    <div class="relative z-40 w-full bottom-0 footer">
       <div class="container">
         <div class="row">
           <div class="fcol1">
-            <img src="assets/logo.png" width="150px" height="100px" />
+            <img src="/assets/logo.png" width="150px" height="100px" />
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem
               assumenda ex dicta tempora, alias iusto laborum! Ducimus
@@ -22,18 +22,18 @@ function Footer() {
                   href="https://www.facebook.com/Rashane-106765908397461"
                   target="_blank"
                 >
-                  <img src="assets/facebook.png" alt="Facebook" class="w-8" />
+                  <img src="/assets/facebook.png" alt="Facebook" class="w-8" />
                 </a>
               </li>
               <li>
                 <a href="https://www.instagram.com/rashane.e/" target="_blank">
-                  <img src="assets/instagram.png" alt="Instagram" class="w-8" />
+                  <img src="/assets/instagram.png" alt="Instagram" class="w-8" />
                 </a>
               </li>
               <li>
                 <a href="tel:+213552967147" target="_blank">
                   <img
-                    src="assets/phone-call.png"
+                    src="/assets/phone-call.png"
                     alt="Telephone"
                     class="w-8"
                   />
@@ -41,7 +41,7 @@ function Footer() {
               </li>
               <li>
                 <a href="mailto:rashaneofficial@gmail.com" target="_blank">
-                  <img src="assets/email.png" alt="Email" class="w-8" />
+                  <img src="/assets/email.png" alt="Email" class="w-8" />
                 </a>
               </li>
             </ul>
@@ -65,7 +65,7 @@ function Footer() {
       <div class="copyright">
         <a href="">
           <img
-            src="assets/copy.png"
+            src="/assets/copy.png"
             alt="copyright"
             width="30px"
             height="30px"

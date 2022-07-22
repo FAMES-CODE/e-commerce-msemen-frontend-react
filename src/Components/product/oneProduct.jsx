@@ -22,6 +22,12 @@ export default function OneProduct() {
   }, []);
   return (
     <div>
+      <div
+        id="success"
+        className="hidden sticky z-50 h-1/6 w-full justify-center items-center top-0 bg-lime-500"
+      >
+        <h1>Article ajouter au panier</h1>
+      </div>
       <div>
         {product
           ? product.map((x) => {
@@ -30,7 +36,7 @@ export default function OneProduct() {
                   return a;
                 })
                 .map((y) => {
-                  return y.attributes.formats.medium.url;
+                  return y.attributes.formats.small.url;
                 });
 
               return (
@@ -56,7 +62,16 @@ export default function OneProduct() {
                       Prix :{" "}
                       <span class="font-extrabold">{x.attributes.price}</span>
                     </h3>
-                    <AddtoCart data={x} />
+                    {x.attributes.available ? (
+                      <AddtoCart class="absolute bottom-0" data={x} />
+                    ) : (
+                      <div className="relative">
+                        {" "}
+                        <span className="w-full absolute font-bold text-center bg-red-500 ">
+                          NON DISPONIBLE
+                        </span>{" "}
+                      </div>
+                    )}
                   </div>
                 </div>
               );

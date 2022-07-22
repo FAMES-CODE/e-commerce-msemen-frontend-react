@@ -1,8 +1,8 @@
 import React from "react";
- 
 
 function AddtoCart(props) {
-   
+  var Succ = document.getElementById("success");
+
   return (
     <div class="bg-orange-500 p-2 w-36 text-center rounded-full text-white">
       <button
@@ -22,8 +22,11 @@ function AddtoCart(props) {
           // Re-serialize the array back into a string and store it in localStorage
           localStorage.setItem("cart", JSON.stringify(a));
           const cat = localStorage.getItem("cart");
-    
-          
+
+          Succ.style.display = "flex";
+          setTimeout(() => {
+            Succ.style.display = "none";
+          }, 2500);
         }}
       >
         Add to cart

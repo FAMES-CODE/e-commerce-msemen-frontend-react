@@ -60,7 +60,7 @@ function Home() {
                         <h2>{cate.attributes.title}</h2>
                         <img
                         class="w-2/4"
-                          src={`http://localhost:1337${cate.attributes.category_image.data.attributes.formats.medium.url}`}
+                          src={`http://localhost:1337${cate.attributes.category_image.data.attributes.formats.small.url}`}
                           alt="Erreur"
                           width
                           height="450px"

@@ -16,7 +16,7 @@ function Sortbycategory() {
   }, []);
 
   return (
-    <div class="z-20 fixed w-full py-2 bg-black bottom-0  shadow-lg shadow-green-600/30  flex justify-evenly items-center ">
+    <div class="fixed z-20    w-full py-2 bg-black bottom-0  flex justify-evenly items-center ">
       <a href="./all" class="text-white">
         Tout
       </a>
